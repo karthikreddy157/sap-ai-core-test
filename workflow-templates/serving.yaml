@@ -1,0 +1,51 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: object-detection-server-pipeline
+  annotations:
+    scenarios.ai.sap.com/name: "Object Detection"
+    executables.ai.sap.com/name: "object-detection-server"
+    artifacts.ai.sap.com/objectdetectionmodel.kind: "model"
+  labels:
+    ai.sap.com/version: "1.0"
+spec:
+  inputs:
+    artifacts:
+      - name: best.pt
+        description: "Trained object detection model"
+    parameters:
+      - name: confidence_threshold
+        type: number
+        description: "Minimum confidence for detections"
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: starter
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: credstutorialrepo   # your Docker registry secret in SAP AI Core
+        minReplicas: 1
+        maxReplicas: 3
+        containers:
+          - name: kserve-container
+            image: "docker.io/karthikatsaartha/gopro_processor"
+            ports:
+              - containerPort: 8000
+                protocol: TCP
+            command: ["/bin/sh", "-c"]
+            args:
+              - >
+                set -e &&
+                echo "Starting Object Detection FastAPI Server" &&
+                uvicorn main:app --host 0.0.0.0 --port 8000
+            env:
+              - name: STORAGE_URI
+                value: "{{inputs.artifacts.objectdetectionmodel}}"
+              - name: CONFIDENCE_THRESHOLD
+                value: "{{inputs.parameters.confidence_threshold}}"
