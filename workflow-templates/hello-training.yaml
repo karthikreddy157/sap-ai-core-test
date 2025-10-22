@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: gopro-processor
+  annotations:
+    scenarios.ai.sap.com/description: "Go Pro Processor"
+    scenarios.ai.sap.com/name: "go-pro-processor"
+    executables.ai.sap.com/description: "Go Pro Processor"
+    executables.ai.sap.com/name: "Go Pro Processor"
+  labels:
+    scenarios.ai.sap.com/id: "hello-world"
+    ai.sap.com/version: "1.0"
+spec:
+  imagePullSecrets:
+    - name: saartha-ai
+  entrypoint: main
+  templates:
+    - name: main
+      container:
+        image: karthikatsaartha/gopro_video_processor   # 🔁 Replace this with your actual image name and tag
+        imagePullPolicy: Always
+        ports:
+          - containerPort: 8000
+        command: ["uvicorn"]
+        args:
+          - "main:app"
+          - "--host"
+          - "0.0.0.0"
+          - "--port"
+          - "8000"
