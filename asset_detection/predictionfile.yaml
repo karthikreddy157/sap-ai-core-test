@@ -39,7 +39,7 @@ spec:
         maxReplicas: 3
         containers:
           - name: kserve-container
-            image: "docker.io/karthikatsaartha/gopro_processor"
+            image: "docker.io/karthikatsaartha/gopro_video_processor"
             ports:
               - containerPort: 8000
                 protocol: TCP
