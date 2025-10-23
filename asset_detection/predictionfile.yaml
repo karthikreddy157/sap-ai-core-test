@@ -49,8 +49,8 @@ spec:
                 set -e &&
                 echo "Starting Object Detection FastAPI Server" &&
                 uvicorn main:app --host 0.0.0.0 --port 8000
-            env:
-              - name: STORAGE_URI
-                value: "{{inputs.artifacts.objectdetectionmodel}}"
-              - name: CONFIDENCE_THRESHOLD
-                value: "{{inputs.parameters.confidence_threshold}}"
+            # env:
+            #   - name: STORAGE_URI
+            #     value: "{{inputs.artifacts.objectdetectionmodel}}"
+            #   - name: CONFIDENCE_THRESHOLD
+            #     value: "{{inputs.parameters.confidence_threshold}}"
