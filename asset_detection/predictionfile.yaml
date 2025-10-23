@@ -1,22 +1,22 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: asset-prediction-pipeline # executable ID, must be unique across your SAP AI Core instance, for example use `server-pipeline-yourname-1234`
+  name: asset-prediction-pipeline
   annotations:
-    scenarios.ai.sap.com/name: "Asset DataSet Classifier Scenario" # Scenario name should be the use case
+    scenarios.ai.sap.com/name: "Asset DataSet Classifier Scenario"
     scenarios.ai.sap.com/description: "SAP AI Core tutorial to classify the popular Asset Data dataset"
 
-    executables.ai.sap.com/name: "assetmodelserving" # Executable name should describe the workflow in the use case  
+    executables.ai.sap.com/name: "assetmodelserving"
     executables.ai.sap.com/description: "Serving with popular ASSET dataset"
 
-    artifacts.ai.sap.com/irismodel.kind: "model" # Suggest the kind of artifact to input.
+    artifacts.ai.sap.com/objectdetectionmodel.kind: "model"
   labels:
     scenarios.ai.sap.com/id: "asset-model-scenario"
     ai.sap.com/version: "1.0"
 spec:
   inputs:
     artifacts:
-      - name: best.pt
+      - name: objectdetectionmodel
         description: "Trained object detection model"
     parameters:
       - name: confidence_threshold
@@ -34,7 +34,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-          - name: credstutorialrepo   # your Docker registry secret in SAP AI Core
+          - name: credstutorialrepo
         minReplicas: 1
         maxReplicas: 3
         containers:
