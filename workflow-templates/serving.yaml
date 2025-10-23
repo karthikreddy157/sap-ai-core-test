@@ -15,7 +15,7 @@ spec:
         description: "Trained object detection model"
     parameters:
       - name: confidence_threshold
-        type: number
+        type: "number"
         description: "Minimum confidence for detections"
   template:
     apiVersion: "serving.kserve.io/v1beta1"
