@@ -1,0 +1,56 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: asset-detection-pipeline # executable ID, must be unique across your SAP AI Core instance, for example use `server-pipeline-yourname-1234`
+  annotations:
+    scenarios.ai.sap.com/name: "Asset DataSet Classifier Scenario" # Scenario name should be the use case
+    scenarios.ai.sap.com/description: "SAP AI Core tutorial to classify the popular Asset Data dataset"
+
+    executables.ai.sap.com/name: "assetmodelserving" # Executable name should describe the workflow in the use case  
+    executables.ai.sap.com/description: "Serving with popular ASSET dataset"
+
+    artifacts.ai.sap.com/irismodel.kind: "model" # Suggest the kind of artifact to input.
+  labels:
+    scenarios.ai.sap.com/id: "asset-model-scenario"
+    ai.sap.com/version: "1.0"
+spec:
+  inputs:
+    artifacts:
+      - name: best.pt
+        description: "Trained object detection model"
+    parameters:
+      - name: confidence_threshold
+        type: "string"
+        description: "Minimum confidence for detections"
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
+    metadata:
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: 1
+        autoscaling.knative.dev/targetBurstCapacity: 0
+      labels: |
+        ai.sap.com/resourcePlan: starter
+    spec: |
+      predictor:
+        imagePullSecrets:
+          - name: credstutorialrepo   # your Docker registry secret in SAP AI Core
+        minReplicas: 1
+        maxReplicas: 3
+        containers:
+          - name: kserve-container
+            image: "docker.io/karthikatsaartha/gopro_processor"
+            ports:
+              - containerPort: 8000
+                protocol: TCP
+            command: ["/bin/sh", "-c"]
+            args:
+              - >
+                set -e &&
+                echo "Starting Object Detection FastAPI Server" &&
+                uvicorn main:app --host 0.0.0.0 --port 8000
+            env:
+              - name: STORAGE_URI
+                value: "{{inputs.artifacts.objectdetectionmodel}}"
+              - name: CONFIDENCE_THRESHOLD
+                value: "{{inputs.parameters.confidence_threshold}}"
