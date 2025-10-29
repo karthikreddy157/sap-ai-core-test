@@ -8,10 +8,20 @@ spec:
   template:
     apiVersion: serving.kserve.io/v1beta1
     kind: InferenceService
-    spec:
+    # metadata:
+    #   labels: |
+    #     ai.sap.com/resourcePlan: starter
+    #   annotations: |
+    #     autoscaling.knative.dev/metric: concurrency
+    #     autoscaling.knative.dev/target: "1"
+    #     autoscaling.knative.dev/targetBurstCapacity: "0"
+    spec: |
       predictor:
         containers:
-          - name: kserve-container
-            image: docker.io/karthikatsaartha/image-inference:1.0
-            ports:
-              - containerPort: 8000
+        - name: kserve-container
+          image: docker.io/karthikatsaartha/image-inference:1.0
+          ports:
+            - containerPort: 8000
+              protocol: TCP
+          command: ["/bin/sh", "-c"]
+          args: ["uvicorn main:app --host 0.0.0.0 --port 8000"]
