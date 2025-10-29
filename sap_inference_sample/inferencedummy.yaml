@@ -2,22 +2,12 @@ apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
   name: image-inference-serving
-  annotations:
-    scenarios.ai.sap.com/name: "ImageInference"
-    executables.ai.sap.com/name: "image-infer-exec"
   labels:
     ai.sap.com/version: "1.0"
 spec:
   template:
     apiVersion: serving.kserve.io/v1beta1
     kind: InferenceService
-    metadata:
-      annotations:
-        autoscaling.knative.dev/metric: concurrency
-        autoscaling.knative.dev/target: "1"
-        autoscaling.knative.dev/targetBurstCapacity: "0"
-      labels:
-        ai.sap.com/resourcePlan: starter
     spec:
       predictor:
         containers:
@@ -25,6 +15,3 @@ spec:
             image: docker.io/karthikatsaartha/image-inference:1.0
             ports:
               - containerPort: 8000
-                protocol: TCP
-            command: ["/bin/sh", "-c"]
-            args: ["uvicorn main:app --host 0.0.0.0 --port 8000"]
