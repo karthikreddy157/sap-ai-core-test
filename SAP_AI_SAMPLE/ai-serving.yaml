@@ -1,0 +1,35 @@
+apiVersion: ai.sap.com/v1alpha1
+kind: ServingTemplate
+metadata:
+  name: image-inference-serving
+  annotations:
+    scenarios.ai.sap.com/description: "Image Inference API"
+    scenarios.ai.sap.com/name: "ImageInference"
+    executables.ai.sap.com/description: "FastAPI Inference Service"
+    executables.ai.sap.com/name: "image-infer"
+  labels:
+    ai.sap.com/version: "1.0"
+spec:
+  inputs:
+    parameters:
+      - name: MODEL_IMAGE
+        default: "karthikatsaartha/image-inference:1.0"
+      - name: CONTAINER_PORT
+        default: "8080"
+  template:
+    apiVersion: serving.kserve.io/v1beta1
+    metadata:
+      labels:
+        ai.sap.com/resourcePlan: starter
+    spec:
+      predictor:
+        minReplicas: 1
+        maxReplicas: 3
+        containers:
+          - name: image-inference
+            image: "{{inputs.parameters.MODEL_IMAGE}}"
+            ports:
+              - containerPort: {{inputs.parameters.CONTAINER_PORT}}
+            env:
+              - name: MODEL_PATH
+                value: "/mnt/models/model.onnx"
