@@ -31,13 +31,12 @@ spec:
         ai.sap.com/resourcePlan: starter
     spec:
       predictor:
-        minReplicas: 1
-        maxReplicas: 1
         containers:
           - name: image-inference
-            image: "{{inputs.parameters.MODEL_IMAGE}}"
-            ports:
-              - containerPort: {{inputs.parameters.CONTAINER_PORT}}
+            image: "{{ .Values.MODEL_IMAGE }}"
             env:
               - name: MODEL_PATH
                 value: "/mnt/models/model.onnx"
+            ports:
+              - name: http
+                containerPort: {{ .Values.CONTAINER_PORT }}
