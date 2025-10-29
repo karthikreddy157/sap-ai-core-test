@@ -5,12 +5,12 @@ metadata:
   annotations:
     executables.ai.sap.com/name: image-inference
 spec:
-  template: |
+  template: 
     apiVersion: serving.kserve.io/v1beta1
     kind: InferenceService
     metadata:
       name: image-inference
-    spec:
+    spec: |
       predictor:
         containers:
           - name: kserve-container
