@@ -8,13 +8,13 @@ spec:
   template:
     apiVersion: serving.kserve.io/v1beta1
     kind: InferenceService
-    # metadata:
-    #   labels: |
-    #     ai.sap.com/resourcePlan: starter
-    #   annotations: |
-    #     autoscaling.knative.dev/metric: concurrency
-    #     autoscaling.knative.dev/target: "1"
-    #     autoscaling.knative.dev/targetBurstCapacity: "0"
+    metadata:
+      labels: |
+        ai.sap.com/resourcePlan: starter
+      annotations: |
+        autoscaling.knative.dev/metric: concurrency
+        autoscaling.knative.dev/target: "1"
+        autoscaling.knative.dev/targetBurstCapacity: "0"
     spec: |
       predictor:
         containers:
