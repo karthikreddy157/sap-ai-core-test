@@ -9,7 +9,7 @@ spec:
     metadata:
       labels:
         ai.sap.com/resource.parent: image-inference
-    spec:
+    spec: |
       name: image-inference
       image: index.docker.io/mydockeruser/image-inference:latest
       models:
