@@ -6,9 +6,9 @@ metadata:
     executables.ai.sap.com/name: image-inference
 spec:
   template:
-    # metadata:
-    #   labels: |
-    #     ai.sap.com/resource.parent: image-inference
+    metadata:
+      labels: |
+        ai.sap.com/resource.parent: image-inference
     spec: |
       name: image-inference
       image: index.docker.io/mydockeruser/image-inference:latest
