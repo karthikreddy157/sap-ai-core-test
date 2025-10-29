@@ -5,6 +5,7 @@ metadata:
   annotations:
     executables.ai.sap.com/name: image-inference
   labels:
+    scenarios.ai.sap.com/id: "inference-scenario"
     ai.sap.com/version: "1.0"
 spec:
   template: 
