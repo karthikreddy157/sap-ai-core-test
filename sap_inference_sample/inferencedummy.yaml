@@ -18,10 +18,10 @@ spec:
     spec: |
       predictor:
         containers:
-        - name: kserve-container
-          image: docker.io/karthikatsaartha/image-inference:1.0
-          ports:
-            - containerPort: 8000
-              protocol: TCP
-          command: ["/bin/sh", "-c"]
-          args: ["uvicorn main:app --host 0.0.0.0 --port 8000"]
+          - name: kserve-container
+            image: docker.io/karthikatsaartha/image-inference:1.0
+            ports:
+              - containerPort: 8000
+                protocol: TCP
+            command: ["/bin/sh", "-c"]
+            args: ["uvicorn main:app --host 0.0.0.0 --port 8000"]
