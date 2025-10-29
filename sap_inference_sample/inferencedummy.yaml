@@ -1,7 +1,7 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: image-inference-serving
+  name: image_inference_serving
   annotations:
     executables.ai.sap.com/name: image-inference
 spec:
