@@ -4,6 +4,8 @@ metadata:
   name: image-inference-serving
   annotations:
     executables.ai.sap.com/name: image-inference
+  labels:
+    ai.sap.com/version: "1.0"
 spec:
   template: 
     apiVersion: serving.kserve.io/v1beta1
