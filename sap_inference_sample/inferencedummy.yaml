@@ -14,6 +14,8 @@ spec:
       name: image-inference
     spec: |
       predictor:
+        imagePullSecrets:
+          - name: saartha-ai
         containers:
           - name: kserve-container
             image: "docker.io/karthikatsaartha/image-inference:1.0"
