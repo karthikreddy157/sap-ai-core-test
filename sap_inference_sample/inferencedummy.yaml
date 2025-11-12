@@ -3,39 +3,58 @@ kind: ServingTemplate
 metadata:
   name: image-inference-serving
   annotations:
-    executables.ai.sap.com/name: image-inference
+    scenarios.ai.sap.com/id: "inference-scenario"
+    executables.ai.sap.com/name: "image-inference"
   labels:
     scenarios.ai.sap.com/id: "inference-scenario"
-    ai.sap.com/version: "1.0"
+    ai.sap.com/version: "2.0"
 spec:
-  template: 
-    apiVersion: serving.kserve.io/v1beta1
-    kind: InferenceService
+  inputs:
+    parameters:
+      - name: resourcePlan
+        type: string
+        default: "starter"
+      - name: postgresHost
+        type: string
+        default: "10.20.1.158"
+      - name: postgresPort
+        type: string
+        default: "5432"
+      - name: postgresUsername
+        type: string
+        default: "postgres"
+      - name: postgresPassword
+        type: string
+        default: "root"
+      - name: postgresDbname
+        type: string
+        default: "ai_data_store"
+  template:
+    apiVersion: "serving.kserve.io/v1beta1"
     metadata:
-      name: image-inference
+      name: "{{.workflow.name}}"
+      labels:
+        ai.sap.com/resourcePlan: "{{.inputs.parameters.resourcePlan}}"
     spec: |
       predictor:
         imagePullSecrets:
           - name: saartha-ai
+        minReplicas: 1
+        maxReplicas: 2
         containers:
-          - name: kserve-container
-            image: "docker.io/karthikatsaartha/gopro_sqlite:0.0.1"
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - uvicorn main:app --host 0.0.0.0 --port 8001
-            ports:
-              - containerPort: 8001
-                protocol: TCP
-            env:
-              - name: POSTGRES_HOST
-                value: "{{.inputs.parameters.postgresHost}}"
-              - name: POSTGRES_PORT
-                value: "{{.inputs.parameters.postgresPort}}"
-              - name: POSTGRES_USERNAME
-                value: "{{.inputs.parameters.postgresUsername}}"
-              - name: POSTGRES_PASSWORD
-                value: "{{.inputs.parameters.postgresPassword}}"
-              - name: POSTGRES_DBNAME
-                value: "{{.inputs.parameters.postgresDbname}}"
+        - name: kserve-container
+          image: docker.io/karthikatsaartha/gopro_postgres:0.0.2
+          ports:
+          - containerPort: 8080
+            protocol: TCP
+          env:
+          - name: POSTGRES_HOST
+            value: "{{.inputs.parameters.postgresHost}}"
+          - name: POSTGRES_PORT
+            value: "{{.inputs.parameters.postgresPort}}"
+          - name: POSTGRES_USERNAME
+            value: "{{.inputs.parameters.postgresUsername}}"
+          - name: POSTGRES_PASSWORD
+            value: "{{.inputs.parameters.postgresPassword}}"
+          - name: POSTGRES_DBNAME
+            value: "{{.inputs.parameters.postgresDbname}}"
