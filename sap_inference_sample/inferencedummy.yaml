@@ -19,7 +19,7 @@ spec:
           - name: saartha-ai
         containers:
           - name: kserve-container
-            image: "docker.io/karthikatsaartha/gopro_postgres:0.0.7"
+            image: "docker.io/karthikatsaartha/gopro_postgres:0.0.8"
             command:
               - /bin/sh
               - -c
