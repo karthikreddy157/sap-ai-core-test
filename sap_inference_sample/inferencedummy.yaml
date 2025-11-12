@@ -28,3 +28,14 @@ spec:
             ports:
               - containerPort: 8001
                 protocol: TCP
+            env:
+              - name: POSTGRES_HOST
+                value: "{{.inputs.parameters.postgresHost}}"
+              - name: POSTGRES_PORT
+                value: "{{.inputs.parameters.postgresPort}}"
+              - name: POSTGRES_USERNAME
+                value: "{{.inputs.parameters.postgresUsername}}"
+              - name: POSTGRES_PASSWORD
+                value: "{{.inputs.parameters.postgresPassword}}"
+              - name: POSTGRES_DBNAME
+                value: "{{.inputs.parameters.postgresDbname}}"
