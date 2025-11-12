@@ -19,12 +19,12 @@ spec:
           - name: saartha-ai
         containers:
           - name: kserve-container
-            image: "docker.io/karthikatsaartha/image-inference:1.9"
+            image: "docker.io/karthikatsaartha/gopro_sqlite:0.0.1"
             command:
               - /bin/sh
               - -c
             args:
-              - uvicorn app.main:app --host 0.0.0.0 --port 8080
+              - uvicorn app.main:app --host 0.0.0.0 --port 8001
             ports:
-              - containerPort: 8080
+              - containerPort: 8001
                 protocol: TCP
