@@ -16,10 +16,10 @@ spec:
         default: "starter"
       - name: postgresHost
         type: string
-        default: "10.20.1.158"
+        default: "10.20.0.158"
       - name: postgresPort
         type: string
-        default: "5432"
+        default: "5402"
       - name: postgresUsername
         type: string
         default: "postgres"
@@ -38,7 +38,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-          - name: saartha-ai
+        - name: saartha-ai
         minReplicas: 1
         maxReplicas: 2
         containers:
@@ -49,12 +49,12 @@ spec:
             protocol: TCP
           env:
           - name: POSTGRES_HOST
-            value: "{{.inputs.parameters.postgresHost}}"
+            value: {{.inputs.parameters.postgresHost}}
           - name: POSTGRES_PORT
-            value: "{{.inputs.parameters.postgresPort}}"
+            value: {{.inputs.parameters.postgresPort}}
           - name: POSTGRES_USERNAME
-            value: "{{.inputs.parameters.postgresUsername}}"
+            value: {{.inputs.parameters.postgresUsername}}
           - name: POSTGRES_PASSWORD
-            value: "{{.inputs.parameters.postgresPassword}}"
+            value: {{.inputs.parameters.postgresPassword}}
           - name: POSTGRES_DBNAME
-            value: "{{.inputs.parameters.postgresDbname}}"
+            value: {{.inputs.parameters.postgresDbname}}
