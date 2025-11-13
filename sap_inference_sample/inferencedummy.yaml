@@ -17,9 +17,7 @@ spec:
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
-      name: "{{.workflow.name}}"
-      labels:
-        ai.sap.com/resourcePlan: "{{.inputs.parameters.resourcePlan}}"
+      name: image-inference
     spec: |
       predictor:
         imagePullSecrets:
