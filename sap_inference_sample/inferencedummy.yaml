@@ -1,68 +1,30 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: gopro-inference-serving
+  name: image-inference-serving
   annotations:
-    scenarios.ai.sap.com/id: "inference-scenario"
-    executables.ai.sap.com/name: "gopro-inference"
+    executables.ai.sap.com/name: image-inference
   labels:
-    scenarios.ai.sap.com/id: "gopro-scenario"
-    ai.sap.com/version: "2.0"
+    scenarios.ai.sap.com/id: "inference-scenario"
+    ai.sap.com/version: "1.0"
 spec:
-  inputs:
-    parameters:
-      - name: resourcePlan
-        type: string
-        default: "starter"
-  template:
-    apiVersion: "serving.kserve.io/v1beta1"
+  template: 
+    apiVersion: serving.kserve.io/v1beta1
+    kind: InferenceService
     metadata:
-      name: "{{.workflow.name}}"
+      name: image-inference
     spec: |
       predictor:
         imagePullSecrets:
-        - name: saartha-ai
-        minReplicas: 1
-        maxReplicas: 1
+          - name: saartha-ai
         containers:
-        - name: postgres
-          image: postgres:15-alpine
-          env:
-          - name: POSTGRES_USER
-            value: postgres
-          - name: POSTGRES_PASSWORD
-            value: root
-          - name: POSTGRES_DB
-            value: ai_data_store
-          - name: PGDATA
-            value: /var/lib/postgresql/data/pgdata
-          ports:
-          - containerPort: 5432
-          volumeMounts:
-          - name: postgres-data
-            mountPath: /var/lib/postgresql/data
-        - name: kserve-container
-          image: docker.io/karthikatsaartha/gopro_postgres:0.0.3
-          ports:
-          - containerPort: 8080
-            protocol: TCP
-          env:
-          - name: POSTGRES_HOST
-            value: localhost
-          - name: POSTGRES_PORT
-            value: "5432"
-          - name: POSTGRES_USERNAME
-            value: postgres
-          - name: POSTGRES_PASSWORD
-            value: root
-          - name: POSTGRES_DBNAME
-            value: ai_data_store
-          - name: YOLO_CONFIG_DIR
-            value: /tmp/Ultralytics
-          - name: MPLCONFIGDIR
-            value: /tmp/matplotlib
-          - name: HOME
-            value: /tmp
-        volumes:
-        - name: postgres-data
-          emptyDir: {}
+          - name: kserve-container
+            image: "docker.io/karthikatsaartha/gopro_postgres:0.0.8"
+            command:
+              - /bin/sh
+              - -c
+            args:
+              - uvicorn main:app --host 0.0.0.0 --port 8001
+            ports:
+              - containerPort: 8001
+                protocol: TCP
