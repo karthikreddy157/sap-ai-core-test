@@ -17,7 +17,7 @@ spec:
   template:
     apiVersion: "serving.kserve.io/v1beta1"
     metadata:
-      name: image-inference
+      name: "{{.workflow.name}}"
     spec: |
       predictor:
         imagePullSecrets:
@@ -34,6 +34,8 @@ spec:
             value: root
           - name: POSTGRES_DB
             value: ai_data_store
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
           ports:
           - containerPort: 5432
           volumeMounts:
