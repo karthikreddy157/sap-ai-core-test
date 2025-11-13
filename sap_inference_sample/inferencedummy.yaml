@@ -1,12 +1,12 @@
 apiVersion: ai.sap.com/v1alpha1
 kind: ServingTemplate
 metadata:
-  name: image-inference-serving
+  name: gopro-inference-serving
   annotations:
     scenarios.ai.sap.com/id: "inference-scenario"
-    executables.ai.sap.com/name: "image-inference"
+    executables.ai.sap.com/name: "gopro-inference"
   labels:
-    scenarios.ai.sap.com/id: "inference-scenario"
+    scenarios.ai.sap.com/id: "gopro-scenario"
     ai.sap.com/version: "2.0"
 spec:
   inputs:
