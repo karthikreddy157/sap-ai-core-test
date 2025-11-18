@@ -19,7 +19,7 @@ spec:
           - name: saartha-ai
         containers:
           - name: kserve-container
-            image: "docker.io/karthikatsaartha/sap_inference_post:0.0.1"
+            image: "docker.io/karthikatsaartha/sap_inference_post:0.0.2"
             command:
               - /bin/sh
               - -c
