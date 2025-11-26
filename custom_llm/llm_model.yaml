@@ -28,7 +28,7 @@ spec:
         maxReplicas: 1
         containers:
         - name: kserve-container
-          image: docker.io/<YOUR_DOCKER_USER>/ollama:ai-core
+          image: docker.io/karthikatsaartha/ollama:ai-core
           ports:
             - containerPort: 8080
               protocol: TCP
