@@ -23,7 +23,7 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-        - name: <YOUR_DOCKER_SECRET>
+        - name: saartha-ai
         minReplicas: 1
         maxReplicas: 1
         containers:
