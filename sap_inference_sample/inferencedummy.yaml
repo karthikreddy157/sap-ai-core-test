@@ -24,7 +24,7 @@ spec:
               - /bin/sh
               - -c
             args:
-              - uvicorn main:app --host 0.0.0.0 --port 8080
+              - uvicorn main:app --host 0.0.0.0 --port 8001
             ports:
-              - containerPort: 8080
+              - containerPort: 8001
                 protocol: TCP
