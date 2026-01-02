@@ -25,7 +25,7 @@ spec:
               - -c
             env:
               - name: USE_S3
-                value: true
+                value: "true"
               - name: VIDEO_TIMESTAMP
                 value: {"GH010007.MP4":{"TIME_STAMP":"1754620921388999936","FPS":"60"},"output.mp4":{"TIME_STAMP":"1754620921388999936","FPS":"60"}}
             args:
