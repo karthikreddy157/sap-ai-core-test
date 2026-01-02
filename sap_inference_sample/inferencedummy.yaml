@@ -23,6 +23,10 @@ spec:
             command:
               - /bin/sh
               - -c
+            environment:
+                  USE_S3: true
+                  VIDEO_TIMESTAMP: '{"GH010007.MP4":{"TIME_STAMP":"1754620921388999936","FPS":"60"},"output.mp4":{"TIME_STAMP":"1754620921388999936","FPS":"60"}}'
+
             args:
               - uvicorn main:app --host 0.0.0.0 --port 8001
             ports:
