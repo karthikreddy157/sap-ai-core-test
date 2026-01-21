@@ -15,8 +15,6 @@ spec:
       name: gpu-test-service
     spec: |
       predictor:
-        imagePullSecrets:
-          - name: saartha-ai
         containers:
           - name: cuopt-container
             image: nvidia/cuopt:latest-cuda12.9-py3.13
