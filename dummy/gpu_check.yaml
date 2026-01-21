@@ -10,15 +10,13 @@ metadata:
 spec:
   template:
     apiVersion: serving.kserve.io/v1beta1
-    kind: GpuTestService
+    kind: InferenceService
     metadata:
       name: gpu-test-service
     spec: |
       predictor:
-        imagePullSecrets:
-          - name: saartha-ai
         containers:
-          - name: kserve-container   # 👈 REQUIRED NAME
+          - name: kserve-container   # 🚨 MUST be this
             image: nvidia/cuopt:latest-cuda12.9-py3.13
             env:
               - name: CUOPT_SERVER_PORT
@@ -29,6 +27,14 @@ spec:
             resources:
               limits:
                 nvidia.com/gpu: 1
+                memory: 8Gi
+                cpu: "2"
               requests:
+                memory: 4Gi
                 cpu: "1"
-                memory: "4Gi"
+            readinessProbe:
+              httpGet:
+                path: /health
+                port: 8000
+              initialDelaySeconds: 60
+              periodSeconds: 10
