@@ -8,7 +8,7 @@ metadata:
     scenarios.ai.sap.com/id: "gpu-test-scenario"
     ai.sap.com/version: "1.0"
 spec:
-  template: 
+  template:
     apiVersion: serving.kserve.io/v1beta1
     kind: GpuTestService
     metadata:
@@ -18,13 +18,17 @@ spec:
         imagePullSecrets:
           - name: saartha-ai
         containers:
-          - name: kserve-container
-            image: "docker.io/karthikatsaartha/cuda-health-service:0.0.3"
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - uvicorn app.app:app --host 0.0.0.0 --port 9000
+          - name: cuopt-container
+            image: nvidia/cuopt:latest-cuda12.9-py3.13
+            env:
+              - name: CUOPT_SERVER_PORT
+                value: "8000"
             ports:
-              - containerPort: 9000
+              - containerPort: 8000
                 protocol: TCP
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+              requests:
+                cpu: "1"
+                memory: "4Gi"
