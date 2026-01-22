@@ -23,27 +23,31 @@ spec:
             ports:
               - containerPort: 8000
                 protocol: TCP
+
             env:
-              - name: PYTHONDONTWRITEBYTECODE
-                value: "1"
-              - name: PYTHONUNBUFFERED
-                value: "1"
               - name: HOME
                 value: "/home/appuser"
               - name: TMPDIR
                 value: "/tmp"
-            # resources:
-            #   limits:
-            #     nvidia.com/gpu: 1
-            #     cpu: "2"
-            #     memory: 8Gi
-            #   requests:
-            #     cpu: "1"
-            #     memory: 4Gi
+                
+            securityContext:
+              readOnlyRootFilesystem: false   # 🔑 CRITICAL FIX
+              allowPrivilegeEscalation: false
+            volumeMounts:
+              - name: writable-tmp
+                mountPath: /tmp
+              - name: writable-home
+                mountPath: /home/appuser
             readinessProbe:
               httpGet:
                 path: /health
                 port: 8000
               initialDelaySeconds: 60
               periodSeconds: 10
+        volumes:
+          - name: writable-tmp
+            emptyDir: {}
+          - name: writable-home
+            emptyDir: {}
+          
 
