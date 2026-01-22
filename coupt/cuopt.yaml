@@ -22,6 +22,7 @@ spec:
             image: "docker.io/karthikatsaartha/cuopt-service:0.0.3"
             ports:
               - containerPort: 8000
+                protocol: TCP
             env:
               - name: PYTHONDONTWRITEBYTECODE
                 value: "1"
