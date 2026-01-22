@@ -20,4 +20,29 @@ spec:
         containers:
           - name: kserve-container
             image: "docker.io/karthikatsaartha/cuopt-service:0.0.3"
+            ports:
+              - containerPort: 8000
+            env:
+              - name: PYTHONDONTWRITEBYTECODE
+                value: "1"
+              - name: PYTHONUNBUFFERED
+                value: "1"
+              - name: HOME
+                value: "/home/appuser"
+              - name: TMPDIR
+                value: "/tmp"
+            resources:
+              limits:
+                nvidia.com/gpu: 1
+                cpu: "2"
+                memory: 8Gi
+              requests:
+                cpu: "1"
+                memory: 4Gi
+            readinessProbe:
+              httpGet:
+                path: /health
+                port: 8000
+              initialDelaySeconds: 60
+              periodSeconds: 10
 
