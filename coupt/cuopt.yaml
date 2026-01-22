@@ -10,7 +10,7 @@ metadata:
 spec:
   template: 
     apiVersion: serving.kserve.io/v1beta1
-    kind: CuoptService
+    kind: InferenceService
     metadata:
       name: cuopt-service
     spec: |
