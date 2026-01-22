@@ -20,11 +20,4 @@ spec:
         containers:
           - name: kserve-container
             image: "docker.io/karthikatsaartha/cuopt-service:0.0.3"
-            command:
-              - /bin/sh
-              - -c
-            args:
-              - uvicorn app.main:app --host 0.0.0.0 --port 8000
-            ports:
-              - containerPort: 8000
-                protocol: TCP
+
