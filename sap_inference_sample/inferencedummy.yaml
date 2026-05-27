@@ -16,10 +16,10 @@ spec:
     spec: |
       predictor:
         imagePullSecrets:
-          - name: saartha-ai
+          - name: saartha-aws
         containers:
           - name: kserve-container
-            image: "docker.io/karthikatsaartha/ai-inference-service:P3.0.4"
+            image: "087486675679.dkr.ecr.ap-south-1.amazonaws.com/saartha/ai-inference:1.0.0"
             command:
               - /bin/sh
               - -c
