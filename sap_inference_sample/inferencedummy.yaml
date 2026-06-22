@@ -28,8 +28,4 @@ spec:
             ports:
               - containerPort: 8001
                 protocol: TCP
-            env:
-              - name: SAVE_LOG 
-                value: false
-              - name: RECORD_DATA_DIR
-                value: /app/data
+
