@@ -19,7 +19,7 @@ spec:
           - name: saartha-aws
         containers:
           - name: kserve-container
-            image: "087486675679.dkr.ecr.ap-south-1.amazonaws.com/saartha/ai-inference:1.0.1"
+            image: "087486675679.dkr.ecr.ap-south-1.amazonaws.com/saartha/ai-inference:1.0.56"
             command:
               - /bin/sh
               - -c
