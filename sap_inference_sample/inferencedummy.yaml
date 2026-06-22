@@ -30,4 +30,4 @@ spec:
                 protocol: TCP
             env:
               - name: DB_SERVICE 
-                value: "https://ezy-ai.c-5c1c2b8.kyma.ondemand.com/api/aibackend"
+                value: "https://saargateway.c-5c1c2b8.kyma.ondemand.com/api/aibackend"
